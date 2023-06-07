@@ -2,7 +2,7 @@
 &namstopack   !  Stochastic physics perturbation schemes
 !-----------------------------------------------------------------------
    ln_stopack        =  .true.     ! Switch on SPPT scheme
-                                   ! (requires ln_trd_tra & ln_trd_dyn TRUE)
+                                   ! (requires ln_trd_tra & ln_trd_dyn TRUE if SPPT is used)
    ln_stopack_restart   = .false.  ! Read from restart file previous perturbation
                                    ! Shall be false only the first cycle with STOPACK, then true
    nn_stopack_seed      = 1111,1111,1111,1111  ! Seeds, must be different among members!
@@ -18,6 +18,7 @@
 !
 !----------------- SPPT  SCHEME (Stochastically perturbed parametrization tendencies)
 !
+   ln_trd_for_sppt   = .TRUE.      ! Tendency accumulation is only for SPPT
 
    sppt_step         = 2           ! SPPT step (0: beginning 1:  before ZVD; 2: after ZVD)
    ln_sppt_taumap    = .false.     ! Use map of decorr. time scale (non-homogeneous case)
@@ -37,8 +38,8 @@
    ln_sppt_trazdf       = .true.   ! Switch for vertical diffusion
    ln_sppt_trazdfp      = .true.   ! Switch for pure vertical diffusion
    ln_sppt_traevd       = .true.   ! Switch for enhanced vertical diffusion
-   ln_sppt_trabbc       = .false.                 ! Switch for bottom boundary condition
-   ln_sppt_trabbl       = .false.                 ! Switch for bottom boundary layer
+   ln_sppt_trabbc       = .true.                  ! Switch for bottom boundary condition
+   ln_sppt_trabbl       = .true.                  ! Switch for bottom boundary layer
    ln_sppt_tranpc       = .false.                 ! Switch for non-penetrative convection
    ln_sppt_tradmp       = .false.                 ! Switch for tracer damping
    ln_sppt_traqsr       = .true.    ! Switch for solar radiation
@@ -176,6 +177,9 @@
    rn_blkh_sd        = 0.1
    nn_spp_blke       = 2           ! Evaporation transfer coefficient
    rn_blke_sd        = 0.1         !
+
+   nn_spp_avtb       = 2           ! Evaporation transfer coefficient
+   rn_avtb_sd        = 0.1         !
 
 !----------------- Stochastic Energy backscatter scheme (SKEB)
 !

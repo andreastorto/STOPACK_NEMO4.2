@@ -1,0 +1,11 @@
+STOPACK for NEMO4.2
+-------------------
+
+Initial porting (A.S. Jun/2023)
+
+The namelist has to be appended to the namelist_cfg of NEMO to
+run with STOPACK.
+
+If SPPT is on, this requires also ln_tra_trd to be TRUE.
+
+If XIOS is on, this requires additional fields in the field_def xml file

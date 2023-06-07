@@ -169,6 +169,8 @@ MODULE stopack
    LOGICAL, PUBLIC, SAVE :: ln_sppt_dyn = .FALSE.
    LOGICAL, PUBLIC, SAVE :: ln_sppt_ice = .FALSE.
 
+   LOGICAL, PUBLIC, SAVE :: ln_trd_for_sppt = .TRUE. 
+
    ! SPPT Options
    INTEGER :: sppt_filter_pass, sppt_step, nn_vwei, &
    & nn_sppt_step_bound, nn_rndm_freq, nn_deftau
@@ -245,6 +247,8 @@ MODULE stopack
    INTEGER, PARAMETER, PUBLIC :: jk_spp_blke   = 30
    INTEGER, PARAMETER, PUBLIC :: jk_spp_tdmp   = 31
 
+   INTEGER, PARAMETER, PUBLIC :: jk_spp_avtb   = 32
+
    INTEGER, PARAMETER, PUBLIC :: jk_skeb_dnum  = 41
    INTEGER, PARAMETER, PUBLIC :: jk_skeb_dcon  = 42
    INTEGER, PARAMETER, PUBLIC :: jk_skeb_deke  = 43
@@ -255,7 +259,7 @@ MODULE stopack
    INTEGER, PARAMETER, PUBLIC :: jk_sppt_uvl   = 53
    INTEGER, PARAMETER, PUBLIC :: jk_sppt_vvl   = 54
 
-   INTEGER, PARAMETER, PUBLIC :: jk_spp        = 31
+   INTEGER, PARAMETER, PUBLIC :: jk_spp        = 32
    INTEGER, PARAMETER, PUBLIC :: jk_stpk_tot   = 54
    REAL(wp), SAVE :: rn_mmax( jk_stpk_tot ) = -9.E+12_wp
    REAL(wp), SAVE :: rn_mmin( jk_stpk_tot ) =  9.E+12_wp
@@ -275,7 +279,7 @@ MODULE stopack
    INTEGER, PUBLIC, SAVE :: nn_spp_bfr,nn_spp_dqdt,nn_spp_dedt,nn_spp_avt,nn_spp_avm,nn_spp_qsi0,nn_spp_relw, nn_spp_arnf,nn_spp_geot,nn_spp_aevd,nn_spp_ahubbl,nn_spp_ahvbbl
    INTEGER, PUBLIC, SAVE :: nn_spp_tkelc,nn_spp_tkedf,nn_spp_tkeds,nn_spp_tkebb,nn_spp_tkefr
    INTEGER, PUBLIC, SAVE :: nn_spp_ahtu, nn_spp_ahtv, nn_spp_ahtw, nn_spp_ahtt
-   INTEGER, PUBLIC, SAVE :: nn_spp_ahm1, nn_spp_ahm2, nn_spp_tdmp
+   INTEGER, PUBLIC, SAVE :: nn_spp_ahm1, nn_spp_ahm2, nn_spp_tdmp, nn_spp_avtb
    ! SPP Sea-ice switches
    INTEGER, PUBLIC, SAVE :: nn_spp_icealb,nn_spp_icestr
    INTEGER, PUBLIC, SAVE :: nn_spp_blkd,nn_spp_blkh,nn_spp_blke
@@ -284,7 +288,7 @@ MODULE stopack
    REAL(wp), PUBLIC, SAVE :: rn_bfr_sd, rn_dqdt_sd, rn_dedt_sd, rn_avt_sd, rn_avm_sd, rn_qsi0_sd, rn_relw_sd, rn_arnf_sd, rn_geot_sd, rn_aevd_sd, rn_ahubbl_sd, rn_ahvbbl_sd
    REAL(wp), PUBLIC, SAVE :: rn_tkelc_sd,rn_tkedf_sd,rn_tkeds_sd,rn_tkebb_sd,rn_tkefr_sd
    REAL(wp), PUBLIC, SAVE :: rn_ahtu_sd, rn_ahtv_sd, rn_ahtw_sd, rn_ahtt_sd
-   REAL(wp), PUBLIC, SAVE :: rn_ahm1_sd, rn_ahm2_sd, rn_tdmp_sd
+   REAL(wp), PUBLIC, SAVE :: rn_ahm1_sd, rn_ahm2_sd, rn_tdmp_sd, rn_avtb_sd
    REAL(wp), PUBLIC, SAVE :: rn_icestr_sd, rn_icealb_sd
    REAL(wp), PUBLIC, SAVE :: rn_blkd_sd, rn_blkh_sd, rn_blke_sd
 
@@ -556,6 +560,14 @@ CONTAINS
          & WRITE(numout,*) ' Random noise MAXVAL SKEB : ', MAXVAL( ABS( gauss_n_2d_k) )
          WRITE(numout,*)
        ENDIF
+
+       IF( ln_sppt_tra ) l_trdtra=.TRUE.
+       IF( ln_sppt_dyn ) l_trddyn=.TRUE.
+
+      ELSE
+
+       IF ( ln_trd_for_sppt .AND. ln_sppt_tra ) l_trdtra = .FALSE.
+       IF ( ln_trd_for_sppt .AND. ln_sppt_dyn ) l_trddyn = .FALSE.
 
       ENDIF
 
@@ -1770,6 +1782,7 @@ CONTAINS
       ln_distcoast, rn_distcoast, nn_vwei, nn_stopack_seed, nn_sppt_step_bound, nn_rndm_freq, &
       ln_sppt_glocon, ln_stopack_repr, rn_uv_infl, rn_ice_infl, &
       rn_icestr_sd, rn_icealb_sd, &
+      ln_trd_for_sppt, &
       ln_sppt_traxad, ln_sppt_trayad, ln_sppt_trazad, ln_sppt_trasad, ln_sppt_traldf, &
       ln_sppt_trazdf, ln_sppt_trazdfp,ln_sppt_traevd, ln_sppt_trabbc, ln_sppt_trabbl, &
       ln_sppt_tranpc, ln_sppt_tradmp, ln_sppt_traqsr, ln_sppt_transr, ln_sppt_traatf ,&
@@ -1789,6 +1802,7 @@ CONTAINS
       rn_tkelc_sd,rn_tkedf_sd,rn_tkeds_sd,rn_tkebb_sd,rn_tkefr_sd,&
       rn_blkd_sd,rn_blkh_sd,rn_blke_sd,&
       nn_spp_tdmp,rn_tdmp_sd,&
+      nn_spp_avtb,rn_avtb_sd,&
       ln_skeb,rn_skeb,nn_dcom_freq,rn_kh,rn_kc,ln_stopack_diags,skeb_filter_pass,rn_skeb_stdev,rn_skeb_tau,&
       nn_dconv,rn_beta_num, rn_beta_con, ln_stopack_debug, ln_skeb_tune, ln_spp, rn_beta_eke, &
       nn_uvdta, sn_uc, sn_vc, cn_dir, rn_heke, rn_veke, ln_skeb_apply, nn_skst
@@ -1872,6 +1886,7 @@ CONTAINS
       nn_spp_blkh =0
       nn_spp_blke =0
       nn_spp_tdmp =0
+      nn_spp_avtb =0
 
       ln_skeb = .false.
       ln_stopack_diags = .false.
@@ -1928,6 +1943,7 @@ CONTAINS
          WRITE(numout,*) '       Seed for random number generator (no restart)    nn_stopack_seed :', nn_stopack_seed(:)
          WRITE(numout,*)
          WRITE(numout,*) '  ***  SPPT scheme '
+         WRITE(numout,*) '       Tendency calculation only for SPPT               ln_trd_for_sppt : ',ln_trd_for_sppt
          WRITE(numout,*) '       SPPT step (0: beginning; 1: before ZVD; 2: after ZVD)  sppt_step : ',sppt_step
          WRITE(numout,*) '       Use map of decorr. time scale                     ln_sppt_taumap :', ln_sppt_taumap
          WRITE(numout,*) '       If ln_sppt_taumap FALSE, use this constant (in days) rn_sppt_tau :', rn_sppt_tau
@@ -2050,6 +2066,8 @@ CONTAINS
          WRITE(numout,*) '                                            STDEV          rn_blke_sd   :', rn_blke_sd
          WRITE(numout,*) '       SPP for tracer damping                              nn_spp_tdmp  :', nn_spp_tdmp
          WRITE(numout,*) '                                            STDEV          rn_tdmp_sd   :', rn_tdmp_sd
+         WRITE(numout,*) '       SPP for background avtb                             nn_spp_avtb  :', nn_spp_avtb
+         WRITE(numout,*) '                                            STDEV          rn_avtb_sd   :', rn_avtb_sd
          WRITE(numout,*)
 
          WRITE(numout,*)
@@ -2121,7 +2139,7 @@ CONTAINS
       nn_spp = nn_spp_bfr+nn_spp_dqdt+nn_spp_dedt+nn_spp_avt+nn_spp_avm+nn_spp_qsi0+&
       & nn_spp_ahtu+nn_spp_ahtv+nn_spp_ahtw+nn_spp_ahtt+nn_spp_relw+nn_spp_arnf+nn_spp_geot+nn_spp_aevd+&
       & nn_spp_tkelc+nn_spp_tkedf+nn_spp_tkeds+nn_spp_tkebb+nn_spp_tkefr+nn_spp_ahubbl+nn_spp_ahvbbl+&
-      & nn_spp_ahm1+nn_spp_ahm2+nn_spp_blkd+nn_spp_blkh+nn_spp_blke+nn_spp_icealb+nn_spp_icestr+nn_spp_tdmp
+      & nn_spp_ahm1+nn_spp_ahm2+nn_spp_blkd+nn_spp_blkh+nn_spp_blke+nn_spp_icealb+nn_spp_icestr+nn_spp_tdmp+nn_spp_avtb
 
       IF(.not. ln_spp ) THEN
           ! Overwrite default values to force switching off SPP
@@ -2155,6 +2173,7 @@ CONTAINS
           nn_spp_icealb = 0
           nn_spp_icestr = 0
           nn_spp_tdmp = 0
+          nn_spp_avtb = 0
       ENDIF
 
       IF(lwp) THEN
