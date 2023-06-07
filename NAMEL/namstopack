@@ -35,8 +35,8 @@
    ln_sppt_trazad       = .false.  ! Switch for z advection
    ln_sppt_trasad       = .false.  ! Switch for z advection  (s- case)
    ln_sppt_traldf       = .true.   ! Switch for lateral diffusion
-   ln_sppt_trazdf       = .true.   ! Switch for vertical diffusion
-   ln_sppt_trazdfp      = .true.   ! Switch for pure vertical diffusion
+   ln_sppt_trazdf       = .false.  ! Switch for vertical diffusion
+   ln_sppt_trazdfp      = .false.  ! Switch for pure vertical diffusion
    ln_sppt_traevd       = .true.   ! Switch for enhanced vertical diffusion
    ln_sppt_trabbc       = .true.                  ! Switch for bottom boundary condition
    ln_sppt_trabbl       = .true.                  ! Switch for bottom boundary layer
@@ -173,11 +173,11 @@
    nn_spp_qsi0       = 2           ! Solar radiation penetration
    rn_qsi0_sd        = 0.01        !
 !  Bulk core formulas
-   nn_spp_blkd       = 2           ! Momentum transfer coefficient
+   nn_spp_blkd       = 0           ! Momentum transfer coefficient
    rn_blkd_sd        = 0.1         !
-   nn_spp_blkh       = 2           ! Sensible heat transfer coefficient
+   nn_spp_blkh       = 0           ! Sensible heat transfer coefficient
    rn_blkh_sd        = 0.1
-   nn_spp_blke       = 2           ! Evaporation transfer coefficient
+   nn_spp_blke       = 0           ! Evaporation transfer coefficient
    rn_blke_sd        = 0.1         !
 
    nn_spp_avtb       = 2           ! Evaporation transfer coefficient
@@ -205,8 +205,8 @@
    !___________!____________!___________________!___________!_____________!________!___________!________!__________!_______________!
    !           !  file name ! frequency (hours) ! variable  ! time interp.!  clim  ! 'yearly'/ ! weights! rotation ! land/sea mask !
    !           !            !  (if <0  months)  !   name    !   (logical) !  (T/F) ! 'monthly' !        ! pairing  !    filename   !
-   sn_uc = 'uvel_yearlyclim', 0. ,'vozocrtx', .false. , .true. , 'yearly'  ,    ''    ,    ''    ,    ''
-   sn_vc = 'vvel_yearlyclim', 0. ,'vomecrty', .false. , .true. , 'yearly'  ,    ''    ,    ''    ,    ''
+   sn_uc = 'uvel_yearlyclim', -12. ,'vozocrtx', .false. , .true. , 'yearly'  ,    ''    ,    ''    ,    ''
+   sn_vc = 'vvel_yearlyclim', -12. ,'vomecrty', .false. , .true. , 'yearly'  ,    ''    ,    ''    ,    ''
    rn_heke     = 1.
    rn_veke     = 0.
    ln_skeb_apply = .true.
