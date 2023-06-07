@@ -593,7 +593,7 @@ CONTAINS
       tau(:,:) = tau(:,:) + (tau(:,:)-tau_b(:,:))*gauss_n_2d(:,:)*umask(:,:,1)
       tav(:,:) = tav(:,:) + (tav(:,:)-tav_b(:,:))*gauss_n_2d(:,:)*vmask(:,:,1)
 
-      IF( kt .le. 100 ) THEN
+      IF( kt .le. 100 .AND. ln_stopack_diags ) THEN
               IF(lwp) WRITE(numout,*)
               IF(lwp) WRITE(numout,*) ' dyn_tausppt at kt =',kt
               IF(lwp) WRITE(numout,*) ' MIN / MAX utau Perturbation : ',&

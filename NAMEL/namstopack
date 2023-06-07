@@ -43,7 +43,7 @@
    ln_sppt_tranpc       = .false.                 ! Switch for non-penetrative convection
    ln_sppt_tradmp       = .false.                 ! Switch for tracer damping
    ln_sppt_traqsr       = .true.    ! Switch for solar radiation
-   ln_sppt_transr       = .false.   ! Switch for non-solar radiation / freshwater flux
+   ln_sppt_transr       = .true.    ! Switch for non-solar radiation / freshwater flux
    ln_sppt_traatf       = .false.   ! Switch for Asselin time-filter
 !
    rn_uv_infl           = 0.001    ! Inflation for SPPT on momentum
@@ -57,6 +57,8 @@
    ln_sppt_dynzdf       = .false.  ! Switch for enhanced vertical diffusion
    ln_sppt_dynbfr       = .false.  ! Switch for bottom boundary condition
    ln_sppt_dynatf       = .false.  ! Switch for Asselin time-filter
+!
+   ln_sppt_tau          = .true.   ! Switch for Asselin time-filter
 !
    ln_sppt_glocon       = .false.  ! Global conservation option (not fully tested)
    nn_sppt_step_bound   = 2        ! Bound random deviates (1) or perturbations (2)
