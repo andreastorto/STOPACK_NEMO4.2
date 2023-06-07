@@ -1,0 +1,76 @@
+
+      <!-- Stochastic physics: Fields below to be added to the file field_def_nemo-oce.xml -->
+
+      <field_group id="grid_T" grid_ref="grid_T_2D">
+        <field id="sppt_ar1"   long_name="sppt_ar1"   standard_name="sppt_ar1"    unit="NotDef"     />
+        <field id="spp_ar1"    long_name="spp_ar1"    standard_name="spp_ar1"     unit="NotDef"     />
+        <field id="skeb_ar1"   long_name="skeb_ar1"   standard_name="skeb_ar1"    unit="NotDef"     />
+        <field id="sppt_ran"   long_name="sppt_ran"   standard_name="sppt_ran"    unit="NotDef"     />
+        <field id="spp_ran"    long_name="spp_ran"    standard_name="spp_ran"     unit="NotDef"     />
+        <field id="skeb_ran"   long_name="skeb_ran"   standard_name="skeb_ran"    unit="NotDef"     />
+        <field id="sppt_tem"   long_name="sppt_tem"   standard_name="sppt_tem"    unit="NotDef"     />
+        <field id="sppt_sal"   long_name="sppt_sal"   standard_name="sppt_sal"    unit="NotDef"     />
+        <field id="spp_par01"  long_name="spp_par01"  standard_name="spp_par01"   unit="NotDef"     />
+        <field id="spp_par02"  long_name="spp_par02"  standard_name="spp_par02"   unit="NotDef"     />
+        <field id="spp_par03"  long_name="spp_par03"  standard_name="spp_par03"   unit="NotDef"     />
+        <field id="spp_par04"  long_name="spp_par04"  standard_name="spp_par04"   unit="NotDef"     />
+        <field id="spp_par05"  long_name="spp_par05"  standard_name="spp_par05"   unit="NotDef"     />
+        <field id="spp_par06"  long_name="spp_par06"  standard_name="spp_par06"   unit="NotDef"     />
+        <field id="spp_par07"  long_name="spp_par07"  standard_name="spp_par07"   unit="NotDef"     />
+        <field id="spp_par08"  long_name="spp_par08"  standard_name="spp_par08"   unit="NotDef"     />
+        <field id="spp_par09"  long_name="spp_par09"  standard_name="spp_par09"   unit="NotDef"     />
+        <field id="spp_par10"  long_name="spp_par10"  standard_name="spp_par10"   unit="NotDef"     />
+        <field id="spp_par11"  long_name="spp_par11"  standard_name="spp_par11"   unit="NotDef"     />
+        <field id="spp_par12"  long_name="spp_par12"  standard_name="spp_par12"   unit="NotDef"     />
+        <field id="spp_par13"  long_name="spp_par13"  standard_name="spp_par13"   unit="NotDef"     />
+        <field id="spp_par14"  long_name="spp_par14"  standard_name="spp_par14"   unit="NotDef"     />
+        <field id="spp_par15"  long_name="spp_par15"  standard_name="spp_par15"   unit="NotDef"     />
+        <field id="spp_par16"  long_name="spp_par16"  standard_name="spp_par16"   unit="NotDef"     />
+        <field id="spp_par17"  long_name="spp_par17"  standard_name="spp_par17"   unit="NotDef"     />
+        <field id="spp_par18"  long_name="spp_par18"  standard_name="spp_par18"   unit="NotDef"     />
+        <field id="spp_par19"  long_name="spp_par19"  standard_name="spp_par19"   unit="NotDef"     />
+        <field id="spp_par20"  long_name="spp_par20"  standard_name="spp_par20"   unit="NotDef"     />
+        <field id="spp_par21"  long_name="spp_par21"  standard_name="spp_par21"   unit="NotDef"     />
+        <field id="spp_par22"  long_name="spp_par22"  standard_name="spp_par22"   unit="NotDef"     />
+        <field id="spp_par23"  long_name="spp_par23"  standard_name="spp_par23"   unit="NotDef"     />
+        <field id="spp_par24"  long_name="spp_par24"  standard_name="spp_par24"   unit="NotDef"     />
+        <field id="spp_par25"  long_name="spp_par25"  standard_name="spp_par25"   unit="NotDef"     />
+        <field id="spp_par26"  long_name="spp_par26"  standard_name="spp_par26"   unit="NotDef"     />
+        <field id="spp_par27"  long_name="spp_par27"  standard_name="spp_par27"   unit="NotDef"     />
+        <field id="spp_par28"  long_name="spp_par28"  standard_name="spp_par28"   unit="NotDef"     />
+        <field id="spp_par29"  long_name="spp_par29"  standard_name="spp_par29"   unit="NotDef"     />
+        <field id="spp_par30"  long_name="spp_par30"  standard_name="spp_par30"   unit="NotDef"     />
+        <field id="spp_par31"  long_name="spp_par31"  standard_name="spp_par31"   unit="NotDef"     />
+        <field id="spp_par32"  long_name="spp_par32"  standard_name="spp_par32"   unit="NotDef"     />
+        <field id="spp_par33"  long_name="spp_par33"  standard_name="spp_par33"   unit="NotDef"     />
+        <field id="spp_par34"  long_name="spp_par34"  standard_name="spp_par34"   unit="NotDef"     />
+        <field id="spp_par35"  long_name="spp_par35"  standard_name="spp_par35"   unit="NotDef"     />
+        <field id="spp_par36"  long_name="spp_par36"  standard_name="spp_par36"   unit="NotDef"     />
+        <field id="spp_par37"  long_name="spp_par37"  standard_name="spp_par37"   unit="NotDef"     />
+        <field id="spp_par38"  long_name="spp_par38"  standard_name="spp_par38"   unit="NotDef"     />
+        <field id="spp_par39"  long_name="spp_par39"  standard_name="spp_par39"   unit="NotDef"     />
+        <field id="spp_par40"  long_name="spp_par40"  standard_name="spp_par40"   unit="NotDef"     />
+        <field id="spp_par41"  long_name="spp_par41"  standard_name="spp_par41"   unit="NotDef"     />
+        <field id="spp_par42"  long_name="spp_par42"  standard_name="spp_par42"   unit="NotDef"     />
+        <field id="spp_par43"  long_name="spp_par43"  standard_name="spp_par43"   unit="NotDef"     />
+        <field id="spp_par44"  long_name="spp_par44"  standard_name="spp_par44"   unit="NotDef"     />
+        <field id="spp_par45"  long_name="spp_par45"  standard_name="spp_par45"   unit="NotDef"     />
+        <field id="spp_par46"  long_name="spp_par46"  standard_name="spp_par46"   unit="NotDef"     />
+        <field id="spp_par47"  long_name="spp_par47"  standard_name="spp_par47"   unit="NotDef"     />
+        <field id="spp_par48"  long_name="spp_par48"  standard_name="spp_par48"   unit="NotDef"     />
+        <field id="spp_par49"  long_name="spp_par49"  standard_name="spp_par49"   unit="NotDef"     />
+        <field id="spp_par50"  long_name="spp_par50"  standard_name="spp_par50"   unit="NotDef"     />
+      </field_group>
+
+      <field_group id="grid_U" grid_ref="grid_U_2D">
+        <!-- Stochastic physics -->
+        <field id="ustar_skeb"  long_name="ustar_skeb"  standard_name="ustar_skeb"        unit="NotDef" />
+        <field id="sppt_uvl"    long_name="sppt_uvl"    standard_name="sppt_uvl"          unit="NotDef" />
+      </field_group>
+
+      <field_group id="grid_V" grid_ref="grid_V_2D">
+        <!-- Stochastic physics -->
+        <field id="vstar_skeb"  long_name="vstar_skeb"  standard_name="vstar_skeb"        unit="NotDef" />
+        <field id="sppt_vvl"    long_name="sppt_vvl"    standard_name="sppt_vvl"          unit="NotDef" />
+      </field_group>
+
