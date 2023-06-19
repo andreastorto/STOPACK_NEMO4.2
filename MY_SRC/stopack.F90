@@ -1168,7 +1168,9 @@ CONTAINS
       !!                where coeff can be 2D or 3D
       !!----------------------------------------------------------------------
    INTEGER, INTENT( in ) :: kt
-#if defined key_traldf_c3d
+#if defined NEMO_V42
+   REAL(wp), INTENT( inout ), DIMENSION(:,:,:) :: coeff
+#elif defined key_traldf_c3d
    REAL(wp), INTENT( inout ), DIMENSION(jpi,jpj,jpk) :: coeff
 #elif defined key_traldf_c2d
    REAL(wp), INTENT( inout ), DIMENSION(jpi,jpj) :: coeff
