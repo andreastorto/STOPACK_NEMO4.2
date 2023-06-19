@@ -340,6 +340,8 @@ MODULE stopack
 #define rau0 rho0
 #define rn_rdt rn_Dt
 #define e3w_n(ji,jj,jk) e3w(ji,jj,jk,Kmm)
+#define key_dynldf_c3d
+#define key_traldf_c3d
 #else
 #include "vectopt_loop_substitute.h90"
 #endif
@@ -1198,7 +1200,7 @@ CONTAINS
 
    IF( nn_type == 1 ) THEN
        gauss = gauss * rn_sd
-#if defined key_traldf_c3d
+#if defined key_traldf_c3d || defined NEMO_V42
        DO jk=1,jpk
          coeff(:,:,jk) = coeff(:,:,jk) * ( 1._wp + gauss )
        ENDDO
@@ -1209,7 +1211,7 @@ CONTAINS
        zsd = rn_sd
        xme = -0.5_wp*zsd*zsd
        gauss = gauss * zsd + xme
-#if defined key_traldf_c3d
+#if defined key_traldf_c3d || defined NEMO_V42
        DO jk=1,jpk
          coeff(:,:,jk) = exp(gauss) * coeff(:,:,jk)
        ENDDO
@@ -1220,7 +1222,7 @@ CONTAINS
        zsd = rn_sd
        xme = 0._wp
        gauss = gauss * zsd + xme
-#if defined key_traldf_c3d
+#if defined key_traldf_c3d || defined NEMO_V42
        DO jk=1,jpk
          coeff(:,:,jk) = exp(gauss) * coeff(:,:,jk)
        ENDDO

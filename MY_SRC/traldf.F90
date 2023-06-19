@@ -69,12 +69,10 @@ CONTAINS
       ENDIF
 
       IF( ln_stopack .AND. nn_spp_ahtu .GT. 0) THEN
-             IF ( kt .eq. nit000 ) ahtu0 = ahtu
              ahtu = ahtu0
              CALL spp_aht(kt,ahtu,nn_spp_ahtu,rn_ahtu_sd,jk_spp_ahtu)
       ENDIF
       IF( ln_stopack .AND. nn_spp_ahtv .GT. 0) THEN
-             IF ( kt .eq. nit000 ) ahtv0 = ahtv
              ahtv = ahtv0
              CALL spp_aht(kt,ahtv,nn_spp_ahtv,rn_ahtv_sd,jk_spp_ahtv)
       ENDIF
@@ -137,8 +135,14 @@ CONTAINS
          END SELECT
       ENDIF
 
-      IF( ln_stopack .AND. nn_spp_ahtu .GT. 0) ALLOCATE( ahtu0(jpi,jpj,jpk) )
-      IF( ln_stopack .AND. nn_spp_ahtv .GT. 0) ALLOCATE( ahtv0(jpi,jpj,jpk) )
+      IF( ln_stopack .AND. nn_spp_ahtu .GT. 0) THEN
+              ALLOCATE( ahtu0(jpi,jpj,jpk) )
+              ahtu0 = ahtu
+      ENDIF
+      IF( ln_stopack .AND. nn_spp_ahtv .GT. 0) THEN
+              ALLOCATE( ahtv0(jpi,jpj,jpk) )
+              ahtv0 = ahtv
+      ENDIF
       !
    END SUBROUTINE tra_ldf_init
 
