@@ -131,6 +131,9 @@ MODULE stopack
 #if ! defined NEMO_V4
    USE wrk_nemo
 #endif
+#if defined NEMO_V42
+   USE ldftra
+#endif
    USE diaptr
    USE zdf_oce         
    USE phycst
@@ -327,6 +330,8 @@ MODULE stopack
    ! Variables to store 2 Gaussian random numbers with current index (ig)
    INTEGER(KIND=i8), SAVE :: ig=1
    REAL(KIND=wp), SAVE :: gran1, gran2
+
+   REAL(wp), ALLOCATABLE, SAVE, DIMENSION(:,:,:), PUBLIC ::  ahtu0,ahtv0
 
    !! * Substitutions
 #if ! defined NEMO_V4
@@ -2423,7 +2428,18 @@ CONTAINS
               &           'V-Velocity climatology', 'namstopack' , no_print )
       ENDIF
 
+#if defined NEMO_V42
+      IF( nn_spp_ahtu .GT. 0) THEN
+              ALLOCATE( ahtu0(jpi,jpj,jpk) )
+              ahtu0 = ahtu
+      ENDIF
+      IF( nn_spp_ahtv .GT. 0) THEN
+              ALLOCATE( ahtv0(jpi,jpj,jpk) )
+              ahtv0 = ahtv
+      ENDIF
+
       IF(lwp) WRITE(numout,*)  '    STOPACK INIT - END'
+#endif
    
    END SUBROUTINE stopack_init
    !

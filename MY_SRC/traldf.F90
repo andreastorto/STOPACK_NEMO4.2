@@ -38,8 +38,6 @@ MODULE traldf
    PUBLIC   tra_ldf        ! called by step.F90
    PUBLIC   tra_ldf_init   ! called by nemogcm.F90
 
-   REAL(wp), ALLOCATABLE, SAVE, DIMENSION(:,:,:) ::   ahtu0,ahtv0
-
    !!----------------------------------------------------------------------
    !! NEMO/OCE 4.0 , NEMO Consortium (2018)
    !! $Id: traldf.F90 14834 2021-05-11 09:24:44Z hadcv $
@@ -133,15 +131,6 @@ CONTAINS
          CASE( np_blp_i  )   ;   WRITE(numout,*) '   ==>>>   Rotated bilaplacian operator (standard)'
          CASE( np_blp_it )   ;   WRITE(numout,*) '   ==>>>   Rotated bilaplacian operator (triad)'
          END SELECT
-      ENDIF
-
-      IF( ln_stopack .AND. nn_spp_ahtu .GT. 0) THEN
-              ALLOCATE( ahtu0(jpi,jpj,jpk) )
-              ahtu0 = ahtu
-      ENDIF
-      IF( ln_stopack .AND. nn_spp_ahtv .GT. 0) THEN
-              ALLOCATE( ahtv0(jpi,jpj,jpk) )
-              ahtv0 = ahtv
       ENDIF
       !
    END SUBROUTINE tra_ldf_init
