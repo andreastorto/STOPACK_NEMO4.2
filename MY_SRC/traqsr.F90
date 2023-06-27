@@ -394,7 +394,8 @@ CONTAINS
       IF( ln_qsr_bio                      )   nqsr = np_BIO
       !
       !                             ! Initialisation
-      ALLOCATE( xsi0r(jpi,jpj) )
+!      ALLOCATE( xsi0r(jpi,jpj) )
+      ALLOCATE( xsi0r(A2D(nn_hls)) )
       xsi0r = 1._wp / rn_si0
       xsi1r = 1._wp / rn_si1
       !
