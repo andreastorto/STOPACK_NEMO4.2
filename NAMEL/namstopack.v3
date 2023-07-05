@@ -1,0 +1,214 @@
+!-----------------------------------------------------------------------
+&namstopack   !  Stochastic physics perturbation schemes
+!-----------------------------------------------------------------------
+   ln_stopack        =  .true.     ! Switch on SPPT scheme
+                                   ! (requires ln_trd_tra & ln_trd_dyn TRUE if SPPT is used)
+   ln_stopack_restart   = .false.  ! Read from restart file previous perturbation
+                                   ! Shall be false only the first cycle with STOPACK, then true
+   nn_stopack_seed      = 1111,1111,1111,1111  ! Seeds, must be different among members!
+   ln_stopack_repr  = .true. ! reproducibility
+                                   ! Should be FALSE the very first time
+   nn_rndm_freq      = 12          ! Frequency of perturbation computation
+   ln_distcoast      = .true.      ! Apply coastal smoothing of perturbations
+				   ! If TRUE, STOPACK requires the file dist.coast.nc
+				   ! to be available in the working directory
+   rn_distcoast      = 80000.      ! Coastal smoothing scale (m)
+   ln_stopack_diags  = .false.     ! Verbose output
+   ln_stopack_debug  = .false.
+!
+!----------------- SPPT  SCHEME (Stochastically perturbed parametrization tendencies)
+!
+   ln_trd_for_sppt   = .TRUE.      ! Tendency accumulation is only for SPPT
+
+   sppt_step         = 2           ! SPPT step (0: beginning 1:  before ZVD; 2: after ZVD)
+   ln_sppt_taumap    = .false.     ! Use map of decorr. time scale (non-homogeneous case)
+                                   ! Requires a sppt_tau_map.nc file to be available.
+   sppt_filter_pass  =  80         ! Number of filter passes to correlate in space
+   nn_deftau         =  2          ! Definition of tau (1: days, 2:timesteps)
+   rn_sppt_stdev     = 0.99        ! SPPT stdev
+   rn_sppt_tau       = 1.0         ! Tau (in days, according to nn_deftau)
+   nn_vwei           = 2           ! Vertical weight (0: No weight; 2: decrease perturbations
+				   ! at the sea bottom)
+!
+   ln_sppt_traxad       = .false.  ! Switch for x advection
+   ln_sppt_trayad       = .false.  ! Switch for y advection
+   ln_sppt_trazad       = .false.  ! Switch for z advection
+   ln_sppt_trasad       = .false.  ! Switch for z advection  (s- case)
+   ln_sppt_traldf       = .true.   ! Switch for lateral diffusion
+   ln_sppt_trazdf       = .false.  ! Switch for vertical diffusion
+   ln_sppt_trazdfp      = .false.  ! Switch for pure vertical diffusion
+   ln_sppt_traevd       = .true.   ! Switch for enhanced vertical diffusion
+   ln_sppt_trabbc       = .true.                  ! Switch for bottom boundary condition
+   ln_sppt_trabbl       = .true.                  ! Switch for bottom boundary layer
+   ln_sppt_tranpc       = .false.                 ! Switch for non-penetrative convection
+   ln_sppt_tradmp       = .false.                 ! Switch for tracer damping
+   ln_sppt_traqsr       = .true.    ! Switch for solar radiation
+   ln_sppt_transr       = .true.    ! Switch for non-solar radiation / freshwater flux
+   ln_sppt_traatf       = .false.   ! Switch for Asselin time-filter
+!
+   rn_uv_infl           = 0.001    ! Inflation for SPPT on momentum
+   ln_sppt_dynhpg       = .false.  ! Switch for x advection
+   ln_sppt_dynspg       = .false.  ! Switch for y advection
+   ln_sppt_dynkeg       = .false.  ! Switch for z advection
+   ln_sppt_dynrvo       = .false.  ! Switch for z advection  (s- case)
+   ln_sppt_dynpvo       = .false.  ! Switch for lateral diffusion
+   ln_sppt_dynzad       = .false.  ! Switch for vertical diffusion
+   ln_sppt_dynldf       = .false.  ! Switch for lateral diffusion
+   ln_sppt_dynzdf       = .false.  ! Switch for enhanced vertical diffusion
+   ln_sppt_dynbfr       = .false.  ! Switch for bottom boundary condition
+   ln_sppt_dynatf       = .false.  ! Switch for Asselin time-filter
+!
+   ln_sppt_tau          = .true.   ! Switch for Asselin time-filter
+!
+   ln_sppt_glocon       = .false.  ! Global conservation option (not fully tested)
+   nn_sppt_step_bound   = 2        ! Bound random deviates (1) or perturbations (2)
+   rn_sppt_bound        = 0.999    ! Bound for gaussian random numbers
+!
+!----------------- SPPT ICE  SCHEME
+!
+   rn_ice_infl     = 0.0001        ! Inflation for SPPT on sea-ice
+   ln_sppt_icehdf  = .false.       ! Sea-ice (numerical) diffusivity
+   ln_sppt_icelat  = .false.       ! Sea-ice lateral accretion
+   ln_sppt_icezdf  = .false.       ! Sea-ice vertical thermodyn.
+!
+!----------------- SPP  SCHEME (Stochastically perturbed parameters)
+!
+   ! SPP scheme
+   ! 0 : off  ; 1 : Gaussian ; 2/3 Lognormal with mean/median (respectively)
+   !            4,5,6 as 1,2,3 but with values bounded to [0,1]
+   ! equal to the unperturbed value
+!
+   spp_filter_pass  = 260          ! Number of filter passes to correlate in space (SKEB)
+   rn_spp_stdev     = 0.99         ! SPP stdev
+   rn_spp_tau       = 10.00        ! SPP tau
+!
+!
+! For each parameter, it is provided nn_spp_XXX which determines the distribution of the perturbation
+! and rn_XXX_sd which determines the standard deviation, with XXX a certain parameter
+!
+! Values of nn_spp_XXX can be:
+! 0 : SPP is off for such parameter ; 1 : Gaussian ; 2/3 Lognormal with mean/median (respectively)
+! 1 : Purely Gaussian PDF, (1+N(0,s)) is multiplied to the unperturbed parameter
+! 2 : Lognormal distribution with mean equal to the unperturbed parameter, exp(N(m1,s1)) to the unperturbed parameter
+! 3 : Lognormal distribution with median equal to the unperturbed parameter, exp(N(m2,s2)) to the unperturbed parameter
+! 4, 5, 6 are as 1,2,3 respectively but with values bounded to [0,1]
+!
+! Option 2 is recommended for every parameter, except relative wind for which 5 is suggested (bounded)
+! A value of 0.1 for the standard deviation is reccomended for most parameter (10% averaged fluctuations)
+! For parameters where uncertainty is large (horizontal diffusivity, relaxation coefficients) can be increased
+! 
+   ln_spp = .true.
+!
+!  MIXING section
+!
+   nn_spp_avt        = 0          ! Vertical mixing of tracers (TKE or GLS only)
+   rn_avt_sd         = 0.001  !
+   nn_spp_avm        = 0           ! Vertical mixing of momentum (TKE or GLS only)
+   rn_avm_sd         = 0.001
+!
+   nn_spp_ahtu       = 2       ! Lateral diffusivity (working ONLY for key_traldf_c2d / key_traldf_c3d )
+   rn_ahtu_sd        = 0.2    ! Otherwise the code aborts for nn_spp_ahtu+nn_spp_ahtv+nn_spp_ahtw+nn_spp_ahtt>0
+   nn_spp_ahtv       = 2           ! ahtu/ahtv : for laplacian/iso operator
+   rn_ahtv_sd        = 0.2
+   nn_spp_ahtw       = 2           ! ahtw : for iso operator
+   rn_ahtw_sd        = 0.2
+   nn_spp_ahtt       = 2           ! ahtt : for bilaplacian operator
+   rn_ahtt_sd        = 0.2
+!
+   nn_spp_ahm1       = 2      ! Lateral viscosity (working ONLY for key_dynldf_c2d / key_dynldf_c3d )
+   rn_ahm1_sd        = 0.2    ! Otherwise the code aborts for nn_spp_ahm1+nn_spp_ahm2 > 0
+   nn_spp_ahm2       = 0      ! It works for both laplacian (ahm1: hdiv, ahm2: rotor) or
+   rn_ahm2_sd        = 0.2    ! and bilaplacian (ahm1: u, ahm2: v)
+!
+   nn_spp_arnf       = 0           ! Enhanced mixing at river mouths
+   rn_arnf_sd        = 0.001         ! (if activated in NEMO with ln_rnf_mouth = .TRUE. )
+!
+   nn_spp_aevd       = 0           ! Enhanced vertical diffusion
+   rn_aevd_sd        = 0.001         ! (if activated in NEMO with ln_zdfevd = .TRUE.)
+!
+!  TKE section
+!
+   nn_spp_tkelc      = 2           ! TKE : Langmuir cell coefficient
+   rn_tkelc_sd       = 0.1 
+   nn_spp_tkedf      = 2           ! TKE : Eddy diff. coefficient
+   rn_tkedf_sd       = 0.1 
+   nn_spp_tkeds      = 0           ! TKE : Kolmogoroff dissipation coeff.
+   rn_tkeds_sd       = 0.1
+   nn_spp_tkebb      = 0           ! TKE : Surface input of tke
+   rn_tkebb_sd       = 0.
+   nn_spp_tkefr      = 2           ! TKE : Fraction of srf TKE below ML
+   rn_tkefr_sd       = 0.01
+!
+!  BBL section
+!
+   nn_spp_ahubbl      = 0 ! Diffusive bottom boundary layer:
+   rn_ahubbl_sd       = 0.2        ! diffusivity parameter for u/v
+   nn_spp_ahvbbl      = 0 ! Recommended: same values for both
+   rn_ahvbbl_sd       = 0.2
+!
+!  SEA-ICE section
+!
+   nn_spp_icealb = 0                       ! SEA-ICE : albedo and strength
+   rn_icealb_sd  = 0.02        ! It works for both LIM2 and LIM3
+   nn_spp_icestr = 0               
+   rn_icestr_sd  = 0.02
+!
+!  BOUNDARY section
+!
+   nn_spp_geot       = 0           ! Geothermal heating flux (if ln_trabbc = .TRUE. AND nn_geoflx > 0 )
+   rn_geot_sd        = 0.005
+   nn_spp_relw       = 0                       ! Relative wind coefficient (Only for bulk CORE formulation, ln_blk_core = TRUE)
+   rn_relw_sd        = 0.001
+   nn_spp_dqdt       = 2           ! SST damping (if nn_sstr > 0 AND ln_ssr = TRUE)
+   rn_dqdt_sd        = 0.5
+   nn_spp_dedt       = 2           ! SSS damping (if nn_sssr > 0 AND ln_ssr = TRUE)
+   rn_dedt_sd        = 0.5
+!
+   nn_spp_tdmp       = 2           ! 3D damping
+   rn_tdmp_sd        = 0.5
+!
+   nn_spp_bfr        = 0           ! Bottom friction
+   rn_bfr_sd         = 0.01 
+!
+   nn_spp_qsi0       = 2           ! Solar radiation penetration
+   rn_qsi0_sd        = 0.1         !
+!  Bulk core formulas
+   nn_spp_blkd       = 0           ! Momentum transfer coefficient
+   rn_blkd_sd        = 0.1         !
+   nn_spp_blkh       = 0           ! Sensible heat transfer coefficient
+   rn_blkh_sd        = 0.1
+   nn_spp_blke       = 0           ! Evaporation transfer coefficient
+   rn_blke_sd        = 0.1         !
+
+   nn_spp_avtb       = 2           ! AVTB
+   rn_avtb_sd        = 0.1         !
+
+!----------------- Stochastic Energy backscatter scheme (SKEB)
+!
+   ln_skeb           = .true.      ! Main switch for SKEB
+   rn_skeb           = 0.50        ! backscatter ratio
+   rn_kh             = 0.0         ! Numerical dissipation parameter. If negative, read from file
+                                   ! k_h^2 * dx * dy should be around 30 000 km2
+   nn_dcom_freq      = 3           ! Frequency of e
+   skeb_filter_pass  = 40          ! Number of filter passes to correlate in space (SKEB)
+   rn_skeb_stdev     = 1.0         ! SKEB stdev
+   rn_skeb_tau       = 1.0         ! SKEB tau
+   rn_kc             = 0.0         ! Convective dissipation parameter. If negative, read from file
+                                   ! k_h * dx * dy should be around 0.3km2
+   nn_dconv          = 2           ! Type of convection energy formulation
+   rn_beta_num       = 0.0         ! Contribution of numerical dissipation to dissipated energy
+   rn_beta_con       = 0.0         ! Contribution of convection dissipation to dissipated energy
+   rn_beta_eke       = 1.0         ! Contribution of convection dissipation to dissipated energy
+   ln_skeb_tune      = .false.     ! Tuning switch for skeb
+   nn_uvdta          = 1
+   cn_dir = './'     !  root directory for the U-V data location
+   !___________!____________!___________________!___________!_____________!________!___________!________!__________!_______________!
+   !           !  file name ! frequency (hours) ! variable  ! time interp.!  clim  ! 'yearly'/ ! weights! rotation ! land/sea mask !
+   !           !            !  (if <0  months)  !   name    !   (logical) !  (T/F) ! 'monthly' !        ! pairing  !    filename   !
+   sn_uc = 'uvel_yearlyclim', -12. ,'vozocrtx', .false. , .true. , 'yearly'  ,    ''    ,    ''    ,    ''
+   sn_vc = 'vvel_yearlyclim', -12. ,'vomecrty', .false. , .true. , 'yearly'  ,    ''    ,    ''    ,    ''
+   rn_heke     = 1.
+   rn_veke     = 0.
+   ln_skeb_apply = .true.
+   nn_skst = -1
+/

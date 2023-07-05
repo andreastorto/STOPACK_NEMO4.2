@@ -1262,7 +1262,9 @@ CONTAINS
       !!                where coeff can be 2D or 3D
       !!----------------------------------------------------------------------
    INTEGER, INTENT( in ) :: kt
-#if defined key_dynldf_c3d
+#if defined NEMO_V42
+   REAL(wp), INTENT( inout ), DIMENSION(:,:,:) :: coeff
+#elif defined key_dynldf_c3d
    REAL(wp), INTENT( inout ), DIMENSION(jpi,jpj,jpk) :: coeff
 #elif defined key_dynldf_c2d
    REAL(wp), INTENT( inout ), DIMENSION(jpi,jpj) :: coeff
@@ -1294,7 +1296,7 @@ CONTAINS
 
    IF( nn_type == 1 ) THEN
        gauss = gauss * rn_sd
-#if defined key_dynldf_c3d
+#if defined key_dynldf_c3d || defined NEMO_V42
        DO jk=1,jpk
          coeff(:,:,jk) = coeff(:,:,jk) * ( 1._wp + gauss )
        ENDDO
@@ -1305,7 +1307,7 @@ CONTAINS
        zsd = rn_sd
        xme = -0.5_wp*zsd*zsd
        gauss = gauss * zsd + xme
-#if defined key_dynldf_c3d
+#if defined key_dynldf_c3d || defined NEMO_V42
        DO jk=1,jpk
          coeff(:,:,jk) = exp(gauss) * coeff(:,:,jk)
        ENDDO
@@ -1317,7 +1319,7 @@ CONTAINS
        zsd = rn_sd
        xme = 0._wp
        gauss = gauss * zsd + xme
-#if defined key_dynldf_c3d
+#if defined key_dynldf_c3d || defined NEMO_V42
        DO jk=1,jpk
          coeff(:,:,jk) = exp(gauss) * coeff(:,:,jk)
        ENDDO
@@ -3404,9 +3406,6 @@ CONTAINS
 #endif
 
    IF ( mt .eq. nitend ) THEN
-     IF(ALLOCATED(dnum)) DEALLOCATE ( dnum )
-     IF(ALLOCATED(dcon)) DEALLOCATE ( dcon )
-     IF(ALLOCATED(deke)) DEALLOCATE ( deke )
      IF (ln_stopack_diags .AND. lwp) CALL stopack_report
    ENDIF
 
